@@ -1,21 +1,23 @@
-# Dockerfile at repo root (same level as SmartServiceHub folder)
-
-# 1) Build stage
+# Stage 1 - Build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# copy csproj (use relative path to where csproj actually is)
-COPY ["SmartServiceHub/SmartServiceHub.csproj", "SmartServiceHub/"]
-RUN dotnet restore "SmartServiceHub/SmartServiceHub.csproj"
+# COPY correct csproj path
+COPY SmartServiceHub/SmartServiceHub.csproj ./SmartServiceHub.csproj
 
-# copy everything
-COPY . .
-WORKDIR /src/SmartServiceHub
+RUN dotnet restore "SmartServiceHub.csproj"
+
+# Now copy full source
+COPY SmartServiceHub/ .
+
 RUN dotnet publish "SmartServiceHub.csproj" -c Release -o /app/publish
 
-# 2) Runtime stage
+# Stage 2 - Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:5000
+EXPOSE 5000
+
 COPY --from=build /app/publish .
-EXPOSE 80
+
 ENTRYPOINT ["dotnet", "SmartServiceHub.dll"]
