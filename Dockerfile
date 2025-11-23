@@ -2,12 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# COPY correct csproj path
+# Copy only the project file
 COPY SmartServiceHub/SmartServiceHub.csproj ./SmartServiceHub.csproj
 
 RUN dotnet restore "SmartServiceHub.csproj"
 
-# Now copy full source
+# Copy entire code
 COPY SmartServiceHub/ .
 
 RUN dotnet publish "SmartServiceHub.csproj" -c Release -o /app/publish
