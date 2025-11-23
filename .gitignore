@@ -3,7 +3,10 @@ obj/
 .vs/
 *.user
 *.suo
-*.db
-*.db-shm
-*.db-wal
-wwwroot/uploads/
+*.userosscache
+*.DotSettings
+*.ncrunch*
+*.localhistory
+.vscode/
+*.log
+.Docker/
