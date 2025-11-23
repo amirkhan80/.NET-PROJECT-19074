@@ -1,21 +1,17 @@
-# Use official dotnet SDK image for build
+# use official microsoft images
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# -- COPY csproj from subfolder to enable restore
-# Adjust path if your .csproj is at SmartServiceHub/SmartServiceHub.csproj
+# copy csproj which is inside subfolder in repo
 COPY ["SmartServiceHub/SmartServiceHub.csproj", "./"]
+RUN dotnet restore "SmartServiceHub.csproj"
 
-# restore
-RUN dotnet restore "./SmartServiceHub.csproj"
+# copy everything and build
+COPY . .
+WORKDIR /src
+RUN dotnet publish "SmartServiceHub.csproj" -c Release -o /app/publish
 
-# copy everything and build/publish
-COPY SmartServiceHub/ ./     # copy project folder content into /src
-RUN dotnet publish "./SmartServiceHub.csproj" -c Release -o /app/publish
-
-# runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
-EXPOSE 80
-ENTRYPOINT ["dotnet","SmartServiceHub.dll"]
+ENTRYPOINT ["dotnet", "SmartServiceHub.dll"]
