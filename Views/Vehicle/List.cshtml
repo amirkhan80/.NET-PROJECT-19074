@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SmartServiceHub.Models.Vehicle>
+@{
+    ViewData["Title"] = "My Vehicles";
+}
+
+<div class="container mt-5">
+    <div class="card shadow p-4 mx-auto" style="max-width:900px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0">My Registered Vehicles</h3>
+            <a asp-action="Create" class="btn btn-primary">+ Add Vehicle</a>
+        </div>
+
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Type</th>
+                    <th>Make & Model</th>
+                    <th>Registration No.</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var v in Model)
+                    {
+                        <tr>
+                            <td>@v.Type</td>
+                            <td>@v.MakeModel</td>
+                            <td>@v.RegistrationNumber</td>
+                            <td>
+                                <a href="/Vehicle/Details/@v.Id" class="btn btn-info btn-sm">View</a>
+                                <a href="/Vehicle/Edit/@v.Id" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="/Vehicle/Delete/@v.Id"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Delete this vehicle?')">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            No vehicles found. Click “Add Vehicle” to register one.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

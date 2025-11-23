@@ -1,0 +1,37 @@
+﻿@model SmartServiceHub.Models.Vehicle
+
+<div class="container mt-4">
+    <h2>Edit Vehicle</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label>Vehicle Type</label>
+            <input type="text" name="type" class="form-control" value="@Model.Type" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Make & Model</label>
+            <input type="text" name="makeModel" class="form-control" value="@Model.MakeModel" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Registration Number</label>
+            <input type="text" name="regNumber" class="form-control" value="@Model.RegistrationNumber" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Current Photo</label><br />
+            @if (Model.PhotoUrl != null)
+            {
+                <img src="@Model.PhotoUrl" width="200" class="mb-2" />
+            }
+        </div>
+
+        <div class="mb-3">
+            <label>Upload New Photo</label>
+            <input type="file" name="photo" class="form-control" />
+        </div>
+
+        <button class="btn btn-success">Update Vehicle</button>
+    </form>
+</div>

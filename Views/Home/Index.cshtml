@@ -1,0 +1,173 @@
+﻿@{
+    ViewData["Title"] = "Smart Service Hub - Home";
+}
+
+<!-- ✅ Include Animate on Scroll (AOS) Library -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<style>
+    /* === BACKGROUND === */
+    body {
+        background: url('/images/bike-bg.jpg') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Transparent overlay */
+    .overlay {
+        background: rgba(0, 0, 0, 0.5);
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+
+    /* === HERO SECTION === */
+    .hero {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border-radius: 20px;
+        padding: 60px 40px;
+        text-align: center;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero h1 {
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #ffae00;
+    }
+
+    .hero p {
+        font-size: 18px;
+        opacity: 0.9;
+    }
+
+    /* === FEATURES === */
+    .features {
+        margin-top: 40px;
+    }
+
+    .feature-box {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        color: #fff;
+        backdrop-filter: blur(6px);
+        transition: 0.3s;
+    }
+
+    .feature-box:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* === BOOKING PANEL === */
+    .booking-panel {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        max-width: 480px;
+        margin: 40px auto;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        height: 45px;
+    }
+
+    .btn-gradient {
+        height: 45px;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #ff7a00, #0b5ed7);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .btn-gradient:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+    }
+</style>
+
+<div class="overlay">
+    <!-- Hero Section -->
+    <div class="hero container" data-aos="zoom-in" data-aos-duration="1000">
+        <h1>Smart Service Hub</h1>
+        <p>Book reliable car or bike services in seconds — choose your service type and time, and we’ll handle the rest 🚗🛠️</p>
+    </div>
+
+    <!-- Feature Boxes -->
+    <div class="features row mt-5 g-4 container mx-auto">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-box">
+                <h5>⚡ Quick Booking</h5>
+                <p>Book your service in under a minute.</p>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="feature-box">
+                <h5>👨‍🔧 Trusted Mechanics</h5>
+                <p>Certified and experienced professionals.</p>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+            <div class="feature-box">
+                <h5>💰 Transparent Pricing</h5>
+                <p>Know the cost before you book.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ Booking Panel with Dropdown -->
+    <div class="booking-panel mt-5" data-aos="fade-up" data-aos-delay="800">
+        <h5 class="text-center mb-3 fw-bold text-dark">Book a Service</h5>
+
+        <form asp-action="Create" asp-controller="Booking" method="post">
+
+            <div class="mb-3">
+                <label>Vehicle Type</label>
+                <input name="vehicleName" class="form-control" placeholder="e.g., Bike - Pulsar 150" required />
+            </div>
+
+            <!-- ✅ UPDATED: SERVICE TYPE DROPDOWN -->
+            <div class="mb-3">
+                <label>Service Type</label>
+                <select name="serviceName" class="form-control" required>
+                    <option value="">-- Select Service --</option>
+
+                    <optgroup label="🚲 Bike Services">
+                        <option value="Bike - Basic Service (₹499)">Basic Service — ₹500</option>
+                        <option value="Bike - Oil Change (₹299)">Oil Change — ₹500</option>
+                        <option value="Bike - Chain Lubrication (₹199)">Chain Lubrication — ₹500</option>
+                        <option value="Bike - Full Repair (₹999)">Full Repair — ₹500</option>
+                    </optgroup>
+
+                    <optgroup label="🚗 Car Services">
+                        <option value="Car - Basic Service (₹1499)">Basic Service — ₹500</option>
+                        <option value="Car - Oil Change (₹899)">Oil Change — ₹500</option>
+                        <option value="Car - AC Service (₹1299)">AC Service — ₹500</option>
+                        <option value="Car - Full Repair (₹2999)">Full Repair — ₹500</option>
+                    </optgroup>
+                </select>
+            </div>
+            <!-- ✅ END DROPDOWN -->
+
+            <div class="mb-3">
+                <label>Preferred Date & Time</label>
+                <input type="datetime-local" name="serviceDate" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn-gradient w-100">Book Now</button>
+        </form>
+    </div>
+</div>
+
+<!-- Initialize AOS Animation -->
+<script>
+    AOS.init();
+</script>

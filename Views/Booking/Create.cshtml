@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Book a Service";
+    var services = ViewBag.ServiceTypes as List<SmartServiceHub.Models.ServiceType>;
+}
+
+<div class="container mt-5">
+    <div class="card shadow p-4 mx-auto" style="max-width:650px; border-radius:20px;">
+        <h3 class="text-center mb-4 fw-bold">Book a Service</h3>
+
+        <form asp-action="Create" method="post">
+
+            <!-- ✅ VEHICLE NAME -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Vehicle Type</label>
+                <input type="text" name="vehicleName" class="form-control"
+                       placeholder="e.g., Bike - Pulsar 150" required />
+            </div>
+
+            <!-- ✅ SERVICE TYPE (WITH PRICE) -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Service Type</label>
+                <select id="serviceDropdown" name="serviceName" class="form-select" required>
+                    <option value="">-- Select Service --</option>
+
+                    @if (services != null)
+                    {
+                        foreach (var s in services)
+                        {
+                            <option value="@s.Name"
+                                    data-price="@s.BasePrice">
+                                @s.Name - ₹@s.BasePrice
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <!-- ✅ SHOW PRICE BELOW DROPDOWN -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Estimated Price</label>
+                <!-- ✅ name="estimatedAmount" added so backend receives price -->
+                <input id="priceBox" name="estimatedAmount" class="form-control" readonly placeholder="₹0" />
+            </div>
+
+            <!-- ✅ DATE & TIME -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Preferred Date & Time</label>
+                <input type="datetime-local" name="serviceDate" class="form-control" required />
+            </div>
+
+            <button type="submit"
+                    class="btn w-100 text-white fw-bold"
+                    style="background: linear-gradient(to right, #ff7f00, #007bff); padding:12px; border-radius:10px;">
+                Book Now
+            </button>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    const dropdown = document.getElementById("serviceDropdown");
+    const priceBox = document.getElementById("priceBox");
+
+    dropdown.addEventListener("change", function () {
+        const selected = dropdown.options[dropdown.selectedIndex];
+        const price = selected.getAttribute("data-price") || 0;
+        priceBox.value = "₹" + price;
+    });
+</script>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<SmartServiceHub.Models.BookingDisplay>
+
+<h2>Admin Dashboard</h2>
+<p>Total Bookings: @ViewBag.TotalBookings</p>
+<p>Pending: @ViewBag.Pending</p>
+<p>Completed: @ViewBag.Completed</p>
+<p>Users: @ViewBag.Users</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Vehicle</th>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var b in Model)
+        {
+            <tr>
+                <td>@b.UserName</td>
+                <td>@b.VehicleType</td>
+                <td>@b.ServiceType</td>
+                <td>@b.ServiceDate.ToShortDateString()</td>
+               
+                <td>@b.Status</td>
+                <td>
+                    <form method="post" asp-action="UpdateStatus">
+                        <input type="hidden" name="bookingId" value="@b.Id" />
+                        <button name="status" value="Accepted" class="btn btn-success btn-sm">Accept</button>
+                        <button name="status" value="Rejected" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

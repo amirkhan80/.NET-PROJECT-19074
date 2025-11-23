@@ -1,0 +1,37 @@
+﻿@model SmartServiceHub.Models.Booking
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<div class="container mt-5">
+    <div class="card shadow p-4 mx-auto" style="max-width:700px;">
+        <h3 class="text-center mb-4">Booking Details</h3>
+
+        <table class="table table-bordered">
+            <tr>
+                <th>Booking ID</th>
+                <td>@Model.Id</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>@Model.Status</td>
+            </tr>
+            <tr>
+                <th>Service Date</th>
+                <td>@Model.ServiceDate.ToString("f")</td>
+            </tr>
+            <tr>
+                <th>Estimated Amount</th>
+                <td>₹@Model.EstimatedAmount</td>
+            </tr>
+            <tr>
+                <th>Final Amount</th>
+                <td>@(Model.FinalAmount.HasValue ? $"₹{Model.FinalAmount}" : "-")</td>
+            </tr>
+        </table>
+
+        <div class="text-center">
+            <a asp-action="History" asp-controller="Booking" class="btn btn-secondary">Back to History</a>
+        </div>
+    </div>
+</div>
