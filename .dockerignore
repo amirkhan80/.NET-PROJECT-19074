@@ -1,11 +1,9 @@
-bin/
-obj/
-.vs/
+bin
+obj
+.vs
 *.user
 *.suo
-*.db
 *.log
-node_modules/
-wwwroot/uploads/
-*.pdb
-*.md
+wwwroot/uploads
+node_modules
+.git
