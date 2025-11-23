@@ -1,18 +1,16 @@
-# Stage 1: Build
+# build stage
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# COPY correct .csproj location
-COPY ["SmartServiceHub/SmartServiceHub.csproj", "./"]
-
+# copy csproj and restore first (for good cache)
+COPY ["SmartServiceHub.csproj", "./"]
 RUN dotnet restore "SmartServiceHub.csproj"
 
-# Copy everything
+# copy everything and publish
 COPY . .
-
 RUN dotnet publish "SmartServiceHub.csproj" -c Release -o /app/publish
 
-# Stage 2: Run
+# runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
