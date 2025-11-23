@@ -5,5 +5,3 @@ obj
 *.suo
 *.log
 wwwroot/uploads
-node_modules
-.git
