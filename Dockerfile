@@ -1,32 +1,20 @@
-# Dockerfile for SmartServiceHub (.NET 9)
-# Build stage
+# Stage 1: build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# copy csproj and restore first for caching
-COPY ["SmartServiceHub.csproj", "./"]
-RUN dotnet restore "SmartServiceHub.csproj"
+# copy csproj and restore
+COPY *.sln ./
+COPY SmartServiceHub/*.csproj ./SmartServiceHub/
+RUN dotnet restore
 
 # copy everything and publish
 COPY . .
-RUN dotnet publish "SmartServiceHub.csproj" -c Release -o /app/publish /p:UseAppHost=false
+WORKDIR /src/SmartServiceHub
+RUN dotnet publish -c Release -o /app/publish
 
-# Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+# Stage 2: runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
-
-# create non-root user (security)
-RUN useradd -ms /bin/bash appuser
-USER appuser
-
-# copy published app
 COPY --from=build /app/publish .
-
-# Expose port
-EXPOSE 8080
-
-# Environment: Render forwards PORT variable; default fallback to 8080
-ENV ASPNETCORE_URLS=http://*:${PORT:-8080}
-ENV DOTNET_RUNNING_IN_CONTAINER=true
-
+EXPOSE 80
 ENTRYPOINT ["dotnet", "SmartServiceHub.dll"]
